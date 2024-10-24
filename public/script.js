@@ -17,9 +17,20 @@ const getGenres = async () => {
     } catch (error) {console.log(error)};
 };
 
-const getMovies = () => {
+const getMovies = async () => {
     const selectedGenre = getSelectedGenre();
+    const discoverMovieEndpoint = '/discover/movie';
+    const requestParams = `?api_key=${tmdbKey}&with_genre=${selectedGenre}`;
+    const urlToFetch = `${tmdbBaseUrl}${discoverMovieEndpoint}${requestParams}`;
 
+    try {
+        const response = await fetch(urlToFetch);
+        if (response.ok) {
+            const jsonResponse = await response.json();
+            const movies = jsonResponse.results;
+            return movies;
+        };
+    } catch (error) {console.log(error)};
 };
 
 const getMovieInfo = () => {

@@ -45,18 +45,21 @@ const getMovieInfo = async (movie) => {
             const jsonResponse = await response.json();
             const movieInfo = jsonResponse;
             return movieInfo;
-            console.log(movieInfo)
         };
     } catch (error) {console.log(error)};
 };
 
 // Gets a list of movies and ultimately displays the info of a random movie from the list
-const showRandomMovie = () => {
+const showRandomMovie = async () => {
     const movieInfo = document.getElementById('movieInfo');
     if (movieInfo.childNodes.length > 0) {
         clearCurrentMovie();
-    };
-
+    }
+    
+    const movies = await getMovies();
+    const randomMovie = getRandomMovie(movies);
+    const info = await getMovieInfo(randomMovie);
+    displayMovie(info);
 };
 
 getGenres().then(populateGenreDropdown);
